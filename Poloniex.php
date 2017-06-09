@@ -1,6 +1,6 @@
 <?php
 
-	// FINAL TESTED CODE - Created by Compcentral (source: https://pastebin.com/iuezwGRZ)
+	// Created by Compcentral (source: https://pastebin.com/iuezwGRZ) - Expanded by Eric Daivs
 
 	// Eric's Note: All functions created by above author EXCEPT:
 		// 1. All margin trading functions
