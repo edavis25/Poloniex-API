@@ -1,6 +1,6 @@
 # PHP Wrapper Class for Poloniex API
 ### Description:
-Class contains a variety of classes for interacting with both the public and trading API. Capable of retrieving current and historic market data as well as executing trades and interacting with an account.
+Class contains a variety of functions for interacting with both the public and trading API. Capable of retrieving current and historic market data as well as executing trades and interacting with an account.
 ### Dependencies:
 The only dependencies for this class involve creating private and secret API keys from a user's account on the Poloniex website.
 ### Credits:
