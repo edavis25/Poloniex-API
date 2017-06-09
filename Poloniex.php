@@ -10,8 +10,8 @@
 		// 5. get_currency_data()
 		// 6. get_balances() + get_available_balances()
 	// The above functions are only partially tested...use the trading ones at your own risk!
-		
-		
+
+
 	// NOTE: currency pairs are reverse of what most exchanges use...
 	// For instance, instead of XPM_BTC, use BTC_XPM
 
@@ -148,8 +148,8 @@ class poloniex {
 		$data = $this->query( 
 			array(
 				'command' => 'returnBalances'
-			)
-		);
+				)
+			);
 
 		if ($currency == 'all') {
 			return $data;						// Return all balances
@@ -170,7 +170,7 @@ class poloniex {
 	public function get_available_balances() {
 		$data = array(
 			'command' => 'returnAvailableAccountBalances'
-		);
+			);
 		return $this->query($data);
 	}
 
@@ -182,8 +182,8 @@ class poloniex {
 			array(
 				'command' => 'returnOpenOrders',
 				'currencyPair' => strtoupper($pair)
-			)
-		);
+				)
+			);
 	}
 
 	public function get_my_trade_history($pair) {
@@ -191,8 +191,8 @@ class poloniex {
 			array(
 				'command' => 'returnTradeHistory',
 				'currencyPair' => strtoupper($pair)
-			)
-		);
+				)
+			);
 	}
 
 	public function get_total_btc_balance() {
@@ -242,8 +242,8 @@ class poloniex {
 				'currencyPair' => strtoupper($pair),
 				'rate' => $rate,
 				'amount' => $amount
-			)
-		);
+				)
+			);
 	}
 
 	public function sell($pair, $rate, $amount) {
@@ -253,8 +253,8 @@ class poloniex {
 				'currencyPair' => strtoupper($pair),
 				'rate' => $rate,
 				'amount' => $amount
-			)
-		);
+				)
+			);
 	}
 
 	public function cancel_order($pair, $order_number) {
@@ -263,8 +263,8 @@ class poloniex {
 				'command' => 'cancelOrder',	 
 				'currencyPair' => strtoupper($pair),
 				'orderNumber' => $order_number
-			)
-		);
+				)
+			);
 	}
 
 
@@ -274,53 +274,53 @@ class poloniex {
 
 	// Get current margin positions info
 	public function get_margin_position($pair = "all") {
-    	$data = array(
+		$data = array(
 			'command' => 'getMarginPosition',
 			'currencyPair' => strtoupper($pair)
-        );
-        return $this->query($data); 
-    }
+			);
+		return $this->query($data); 
+	}
 
     // Get meta summary of margin account (fees/borrowed value/etc.)
-    public function get_margin_account_summary() {
-    	$data = array(
-    		'command' => 'returnMarginAccountSummary'
-    	);
-    	return $this->query($data);
-    }
+	public function get_margin_account_summary() {
+		$data = array(
+			'command' => 'returnMarginAccountSummary'
+			);
+		return $this->query($data);
+	}
 
     // Close a margin position (returns success even if no position is currently open)
-    public function close_margin_position($pair) {
-    	$data = array(
-    		'command' => 'closeMarginPosition',
-    		'currencyPair' => strtoupper($pair)
-    	);
-    	return $this->query($data);
-    }
+	public function close_margin_position($pair) {
+		$data = array(
+			'command' => 'closeMarginPosition',
+			'currencyPair' => strtoupper($pair)
+			);
+		return $this->query($data);
+	}
 
     // Default max lending rate = 2%
-    public function margin_buy($rate, $amount, $pair, $max_lending_rate = 0.02) {
-    	$data = array(
-    		'command' => 'marginBuy',
-    		'rate' => $rate,
-    		'amount' => $amount,
-    		'currencyPair' => strtoupper($pair),
-    		'lendingRate' => $max_lending_rate
-    	);
-    	return $this->query($data);
-    }
+	public function margin_buy($rate, $amount, $pair, $max_lending_rate = 0.02) {
+		$data = array(
+			'command' => 'marginBuy',
+			'rate' => $rate,
+			'amount' => $amount,
+			'currencyPair' => strtoupper($pair),
+			'lendingRate' => $max_lending_rate
+			);
+		return $this->query($data);
+	}
 
     // Default max lending rate = 2%
-    public function margin_sell($rate, $amount, $pair, $max_lending_rate = 0.02) {
-    	$data = array(
-    		'command' => 'marginSell',
-    		'rate' => $rate,
-    		'amount' => $amount,
-    		'currencyPair' => strtoupper($pair),
-    		'lendingRate' => $max_lending_rate
-    	);
-    	return $this->query($data);
-    }
+	public function margin_sell($rate, $amount, $pair, $max_lending_rate = 0.02) {
+		$data = array(
+			'command' => 'marginSell',
+			'rate' => $rate,
+			'amount' => $amount,
+			'currencyPair' => strtoupper($pair),
+			'lendingRate' => $max_lending_rate
+			);
+		return $this->query($data);
+	}
 
 
     /*
@@ -332,16 +332,16 @@ class poloniex {
     /*
      *  Functions for addresses and withdraws
      */
-	public function withdraw($currency, $amount, $address) {
-		return $this->query( 
-			array(
-				'command' => 'withdraw',	
-				'currency' => strtoupper($currency),				
-				'amount' => $amount,
-				'address' => $address
-			)
-		);
-	}
+    public function withdraw($currency, $amount, $address) {
+    	return $this->query( 
+    		array(
+    			'command' => 'withdraw',	
+    			'currency' => strtoupper($currency),				
+    			'amount' => $amount,
+    			'address' => $address
+    			)
+    		);
+    }
 
 
 
@@ -383,7 +383,7 @@ class poloniex {
 		$headers = array(
 			'Key: '.$key,
 			'Sign: '.$sign,
-		);
+			);
 
 		// curl handle (initialize if required)
 		static $ch = null;
