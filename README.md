@@ -13,6 +13,7 @@ The full documentation for the API can be found [here](https://poloniex.com/supp
 
 
 ### TODO:
-- [ ] Add functions for margin loans
-- [ ] Add functions for finding and creating deposit addresses
+- [X] Add functions for lending
+- [X] Add functions for finding and creating deposit addresses
 - [ ] Add functions for detailed balance info (including ability to specify a single currency)
+- [ ] Refactor exchange+margin buy and sell functions
