@@ -297,7 +297,7 @@ class poloniex {
     }
 
     // Default max lending rate = 2%
-    public function margin_buy($rate, $amount, $pair, $max_lending_rate = 0.02) {
+    public function margin_buy($pair, $rate, $amount, $max_lending_rate = 0.02) {
         $data = array(
             'command' => 'marginBuy',
             'rate' => $rate,
@@ -309,7 +309,7 @@ class poloniex {
     }
 
     // Default max lending rate = 2%
-    public function margin_sell($rate, $amount, $pair, $max_lending_rate = 0.02) {
+    public function margin_sell($pair, $rate, $amount, $max_lending_rate = 0.02) {
         $data = array(
             'command' => 'marginSell',
             'rate' => $rate,
@@ -325,6 +325,68 @@ class poloniex {
      *  Functions for lending
      */
 
+    // Default duration = 2 days
+    // Default loan rate = 2%
+    public function create_loan_offer($currency, $amount, $rate = 0.02, $duration = 2, $auto_renew = false) {
+        $data = array(
+            'command' => 'createLoanOffer',
+            'currency' => strtoupper($currency),
+            'amount' => $amount,
+            'duration' => $duration,
+            'autoRenew' => $auto_renew,
+            'lendingRate' => $rate
+        );
+        return $this->query($data);
+    }
+
+
+    // Get details for open loans
+    public function get_open_loan_offers($currency = 'all') {
+        $data = array(
+            'command' => 'returnOpenLoanOffers'
+        );
+        $json = $this->query($data);
+
+        if ($currency == 'all') {
+            return $json;
+        }
+
+        $currency = strtoupper($currency);
+        if (isset($json[$currency])) {
+            return $json[$currency];
+        }
+        return array();      // Return empty array currency not found
+    }
+
+
+    public function get_active_loans() {
+        $data = array(
+            'command' => 'returnActiveLoans'
+        );
+        return $this->query($data);
+    }
+
+
+    public function cancel_loan_offer($order_number) {
+        $data = array(
+            'command' => 'cancelLoanOffer',
+            'orderNumber' => $order_number
+        );
+        return $this->query($data);
+    }
+
+
+    // API only allows toggling of autorenew - it doesn't support setting
+    // true/false so make sure you know its current status before toggling.
+    // Returns new autorenew status inside 'message' key as binary boolean (0/1)
+    // Note: Only works on active loans (fails on loans still open)
+    public function toggle_autorenew($order_number) {
+        $data = array(
+            'command' => 'toggleAutoRenew',
+            'orderNumber' => $order_number
+        );
+        return $this->query($data);
+    }
 
 
     /*
@@ -337,10 +399,48 @@ class poloniex {
                 'currency' => strtoupper($currency),                
                 'amount' => $amount,
                 'address' => $address
-                )
-            );
+            )
+        );
     }
 
+
+    public function get_deposit_address($currency = 'all') {
+        $data = array(
+            'command' => 'returnDepositAddresses'
+        );
+        $json = $this->query($data);
+
+        if ($currency == 'all') {
+            return $json;
+        }
+
+        $currency = strtoupper($currency);
+        if (isset($json[$currency])) {
+            return $json[$currency];
+        }
+        return array();         // Currency not found return empty array
+    }
+
+
+    public function generate_deposit_address($currency) {
+        $data = array(
+            'command' => 'generateNewAddress',
+            'currency' => strtoupper($currency)
+        );
+        return $this->query($data);
+    }
+
+
+    public function transfer_balance($currency, $amount, $origin_acct, $dest_acct) {
+        $data = array(
+            'command' => 'transferBalance',
+            'currency' => strtoupper($currency),
+            'amount' => $amount,
+            'fromAccount' => $origin_acct,
+            'toAccount' => $dest_acct
+        );
+        return $this->query($data);
+    }
 
 
     /************************************************************
